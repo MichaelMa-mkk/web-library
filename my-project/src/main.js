@@ -4,12 +4,16 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
+import datum from '@/store/data'
+
 Vue.config.productionTip = false
+
+Vue.prototype.datum = datum
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  components: { App },
-  template: '<App/>'
+  template: '<App/>',
+  components: { App }
 })
