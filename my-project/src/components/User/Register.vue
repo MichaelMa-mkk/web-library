@@ -45,8 +45,8 @@ export default {
       if (repeat !== pwd) alert('两次密码输入不一致')
       else {
         if (pwd !== '' && name !== '') {
-          var len = this.datum.UserList.length
-          this.datum.UserList.push({
+          var len = this.data.UserList.length
+          this.data.UserList.push({
             id: len,
             name: name,
             pwd: pwd,

@@ -53,19 +53,19 @@ export default {
   data () {
     var froms = []
     var tos = []
-    for (var evalitem of this.datum.EvalList) {
-      if (evalitem.to === this.datum.LoginId) {
+    for (var evalitem of this.data.EvalList) {
+      if (evalitem.to === this.data.LoginId) {
         froms.push(evalitem)
       }
-      if (evalitem.belong === this.datum.LoginId) {
+      if (evalitem.belong === this.data.LoginId) {
         tos.push(evalitem)
       }
     }
     return {
       froms: froms,
       tos: tos,
-      users: this.datum.UserList,
-      goods: this.datum.GoodList
+      users: this.data.UserList,
+      goods: this.data.GoodList
     }
   }
 }

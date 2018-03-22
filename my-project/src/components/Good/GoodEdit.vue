@@ -83,19 +83,19 @@ export default {
     HeadBar
   },
   data () {
-    var good = this.datum.GoodList[this.$route.params.id]
+    var good = this.data.GoodList[this.$route.params.id]
     var users = []
-    for (var message of this.datum.MessageList) {
+    for (var message of this.data.MessageList) {
       if (message.goodid === good.id) {
-        users.push(this.datum.UserList[message.userid])
+        users.push(this.data.UserList[message.userid])
       }
     }
     return {
       good: good,
-      login: this.datum.LoginId === good.userid,
+      login: this.data.LoginId === good.userid,
       selected: good.status,
       users: users,
-      categories: this.datum.CategoryList
+      categories: this.data.CategoryList
     }
   },
   methods: {
@@ -110,12 +110,12 @@ export default {
         alert('信息填写有遗漏')
         return
       }
-      this.datum.GoodList[this.$route.params.id].name = name
-      this.datum.GoodList[this.$route.params.id].author = author
-      this.datum.GoodList[this.$route.params.id].price = parseFloat(price)
-      this.datum.GoodList[this.$route.params.id].category = parseInt(category)
-      this.datum.GoodList[this.$route.params.id].status = parseInt(status)
-      this.datum.GoodList[this.$route.params.id].to = parseInt(to)
+      this.data.GoodList[this.$route.params.id].name = name
+      this.data.GoodList[this.$route.params.id].author = author
+      this.data.GoodList[this.$route.params.id].price = parseFloat(price)
+      this.data.GoodList[this.$route.params.id].category = parseInt(category)
+      this.data.GoodList[this.$route.params.id].status = parseInt(status)
+      this.data.GoodList[this.$route.params.id].to = parseInt(to)
       var url = window.location.href
       url = url.substring(0, url.indexOf('#/'))
       window.location.href = url + '#/user/publish'

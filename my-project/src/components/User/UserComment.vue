@@ -7,14 +7,14 @@ export default {
   name: 'user-comment',
   data () {
     var comments = []
-    for (var comment of this.datum.CommentList) {
-      if (comment.userid === this.datum.LoginId) {
+    for (var comment of this.data.CommentList) {
+      if (comment.userid === this.data.LoginId) {
         comments.push(comment)
       }
     }
     return {
       comments: comments,
-      goods: this.datum.GoodList
+      goods: this.data.GoodList
     }
   }
 }

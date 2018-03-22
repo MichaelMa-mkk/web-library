@@ -33,7 +33,7 @@ export default {
   name: 'user-info',
   data () {
     return {
-      user: this.datum.UserList[this.datum.LoginId]
+      user: this.data.UserList[this.data.LoginId]
     }
   },
   methods: {
@@ -44,10 +44,10 @@ export default {
       if (contact === '') alert('联系方式不能为空')
       else {
         if (pwd !== '') {
-          this.datum.UserList[this.datum.LoginId].pwd = pwd
+          this.data.UserList[this.data.LoginId].pwd = pwd
         }
-        this.datum.UserList[this.datum.LoginId].name = name
-        this.datum.UserList[this.datum.LoginId].contact = contact
+        this.data.UserList[this.data.LoginId].name = name
+        this.data.UserList[this.data.LoginId].contact = contact
         this.user.name = name
         this.user.contact = contact
         document.getElementById('password').value = ''

@@ -22,8 +22,8 @@ export default {
   name: 'user-star',
   data () {
     return {
-      stars: this.datum.UserList[this.datum.LoginId].star,
-      goods: this.datum.GoodList
+      stars: this.data.UserList[this.data.LoginId].star,
+      goods: this.data.GoodList
     }
   }
 }

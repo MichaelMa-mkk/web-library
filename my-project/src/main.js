@@ -4,11 +4,11 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
-import datum from '@/store/data'
+import data from '@/store/data'
 
 Vue.config.productionTip = false
 
-Vue.prototype.datum = datum
+Vue.prototype.data = data
 
 /* eslint-disable no-new */
 new Vue({

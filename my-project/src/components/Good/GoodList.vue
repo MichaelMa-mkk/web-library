@@ -24,7 +24,7 @@ export default {
   name: 'good-list',
   data () {
     return {
-      categories: this.datum.CategoryList
+      categories: this.data.CategoryList
     }
   },
   components: {

@@ -38,24 +38,24 @@ export default {
   },
   data () {
     var messages = []
-    for (var message of this.datum.MessageList) {
-      if (this.datum.GoodList[message.goodid].userid === this.datum.LoginId) {
+    for (var message of this.data.MessageList) {
+      if (this.data.GoodList[message.goodid].userid === this.data.LoginId) {
         messages.push(message)
       }
     }
     return {
       messages: messages,
-      goods: this.datum.GoodList,
-      users: this.datum.UserList,
-      login: this.datum.LoginId !== ''
+      goods: this.data.GoodList,
+      users: this.data.UserList,
+      login: this.data.LoginId !== ''
     }
   },
   methods: {
     read (index) {
-      this.datum.MessageList[index].status = 1
+      this.data.MessageList[index].status = 1
     },
     allread () {
-      for (var message of this.datum.MessageList) {
+      for (var message of this.data.MessageList) {
         message.status = 1
       }
     }

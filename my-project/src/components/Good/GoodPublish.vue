@@ -62,8 +62,8 @@ export default {
   },
   data () {
     return {
-      login: this.datum.LoginId !== '',
-      categories: this.datum.CategoryList
+      login: this.data.LoginId !== '',
+      categories: this.data.CategoryList
     }
   },
   methods: {
@@ -76,13 +76,13 @@ export default {
         alert('信息填写有遗漏')
         return
       }
-      this.datum.GoodList.push({
+      this.data.GoodList.push({
         name: name,
         author: author,
         price: parseFloat(price),
         category: parseInt(category),
-        id: this.datum.GoodList.length,
-        userid: this.datum.LoginId,
+        id: this.data.GoodList.length,
+        userid: this.data.LoginId,
         status: 0
       })
       var url = window.location.href

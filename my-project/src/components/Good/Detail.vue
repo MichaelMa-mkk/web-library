@@ -56,13 +56,13 @@ export default {
   data () {
     var comments = []
     var isstar = false
-    for (var comment of this.datum.CommentList) {
+    for (var comment of this.data.CommentList) {
       if (comment.goodid === this.$route.params.id) {
         comments.push(comment)
       }
     }
-    if (this.datum.LoginId !== '') {
-      for (var goodid of this.datum.UserList[this.datum.LoginId].star) {
+    if (this.data.LoginId !== '') {
+      for (var goodid of this.data.UserList[this.data.LoginId].star) {
         if (goodid === parseInt(this.$route.params.id)) {
           isstar = true
           break
@@ -70,25 +70,25 @@ export default {
       }
     }
     return {
-      text: this.datum.LoginId !== '' ? '已经向卖家发送站内私信啦' : '请先登录',
-      good: this.datum.GoodList[this.$route.params.id],
+      text: this.data.LoginId !== '' ? '已经向卖家发送站内私信啦' : '请先登录',
+      good: this.data.GoodList[this.$route.params.id],
       comments: comments,
-      users: this.datum.UserList,
+      users: this.data.UserList,
       isstar: isstar
     }
   },
   methods: {
     addcomment () {
-      if (this.datum.LoginId === '') alert('请先登录')
+      if (this.data.LoginId === '') alert('请先登录')
       else {
         var content = document.getElementById('comment-content')
         if (content.value !== '') {
           this.comments.push({
-            userid: this.datum.LoginId,
+            userid: this.data.LoginId,
             content: content.value
           })
-          this.datum.CommentList.push({
-            userid: this.datum.LoginId,
+          this.data.CommentList.push({
+            userid: this.data.LoginId,
             content: content.value,
             goodid: this.good.id
           })
@@ -97,23 +97,23 @@ export default {
       }
     },
     star () {
-      if (this.datum.LoginId === '') alert('请先登录')
+      if (this.data.LoginId === '') alert('请先登录')
       else {
         this.isstar = !this.isstar
         if (!this.isstar) {
-          for (var index in this.users[this.datum.LoginId].star) {
-            if (this.users[this.datum.LoginId].star[index] === this.good.id) {
-              this.users[this.datum.LoginId].star.splice(index, 1)
+          for (var index in this.users[this.data.LoginId].star) {
+            if (this.users[this.data.LoginId].star[index] === this.good.id) {
+              this.users[this.data.LoginId].star.splice(index, 1)
             }
           }
         } else {
-          this.users[this.datum.LoginId].star.push(this.good.id)
+          this.users[this.data.LoginId].star.push(this.good.id)
         }
       }
     },
     addmessage () {
-      this.datum.MessageList.push({
-        userid: this.datum.LoginId,
+      this.data.MessageList.push({
+        userid: this.data.LoginId,
         goodid: this.good.id,
         status: 0
       })

@@ -8,7 +8,6 @@ import Register from '@/components/User/Register'
 import Login from '@/components/User/Login'
 import Message from '@/components/User/Message'
 import UserView from '@/components/User/InfoView'
-import Search from '@/components/Good/Search'
 
 Vue.use(Router)
 
@@ -44,11 +43,6 @@ export default new Router({
       path: '/userview/:id',
       name: 'UserView',
       component: UserView
-    },
-    {
-      path: '/search',
-      name: 'Search',
-      component: Search
     }
   ]
 })

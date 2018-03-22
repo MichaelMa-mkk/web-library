@@ -28,10 +28,6 @@
               我的
             </a>
           </li>
-          <li :class="search">
-            <router-link :to="{ name: 'Search' }">搜索
-            </router-link>
-          </li>
         </ul>
       </div>
     </div>
@@ -44,13 +40,12 @@ export default {
   props: [
     'home',
     'news',
-    'personal',
-    'search'
+    'personal'
   ],
   data () {
     var tot = 0
-    for (var message of this.datum.MessageList) {
-      if (message.status === 0 && this.datum.LoginId === this.datum.GoodList[message.goodid].userid) {
+    for (var message of this.data.MessageList) {
+      if (message.status === 0 && this.data.LoginId === this.data.GoodList[message.goodid].userid) {
         tot++
       }
     }
@@ -62,7 +57,7 @@ export default {
     check () {
       var url = window.location.href
       url = url.substring(0, url.indexOf('#/'))
-      if (this.datum.LoginId === '') {
+      if (this.data.LoginId === '') {
         window.location.href = url + '#/login'
       } else {
         window.location.href = url + '#/user/info'
@@ -70,10 +65,10 @@ export default {
     }
   },
   watch: {
-    'datum.MessageList': {
+    'data.MessageList': {
       handler: function (val, oldval) {
         this.tot = 0
-        for (var message of this.datum.MessageList) {
+        for (var message of this.data.MessageList) {
           if (message.status === 0) {
             this.tot++
           }

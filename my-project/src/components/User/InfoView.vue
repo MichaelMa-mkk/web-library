@@ -54,24 +54,24 @@ export default {
   },
   data () {
     var evals = []
-    for (var evalitem of this.datum.EvalList) {
+    for (var evalitem of this.data.EvalList) {
       if (evalitem.belong === parseInt(this.$route.params.id)) {
         evals.push(evalitem)
       }
     }
     return {
       evals: evals,
-      user: this.datum.UserList[this.$route.params.id],
-      users: this.datum.UserList,
-      goods: this.datum.GoodList
+      user: this.data.UserList[this.$route.params.id],
+      users: this.data.UserList,
+      goods: this.data.GoodList
     }
   },
   watch: {
     '$route.params.id': function () {
-      this.user = this.datum.UserList[this.$route.params.id]
+      this.user = this.data.UserList[this.$route.params.id]
       this.evals = []
-      console.log(this.datum.EvalList)
-      for (var evalitem of this.datum.EvalList) {
+      console.log(this.data.EvalList)
+      for (var evalitem of this.data.EvalList) {
         if (evalitem.belong === parseInt(this.$route.params.id)) {
           this.evals.push(evalitem)
         }

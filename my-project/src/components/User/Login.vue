@@ -51,9 +51,9 @@ export default {
       var pwd = document.getElementById('password').value
       var name = document.getElementById('username').value
       var flag = 0
-      for (var user of this.datum.UserList) {
+      for (var user of this.data.UserList) {
         if (user.name === name && user.pwd === pwd) {
-          this.datum.LoginId = user.id
+          this.data.LoginId = user.id
           flag = 1
           var url = window.location.href
           url = url.substring(0, url.length - 5)

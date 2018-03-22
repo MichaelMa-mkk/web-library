@@ -51,11 +51,11 @@ export default {
   data () {
     var goods = []
     var ugoods = []
-    for (var good of this.datum.GoodList) {
-      if (good.userid === this.datum.LoginId && good.status === 0) {
+    for (var good of this.data.GoodList) {
+      if (good.userid === this.data.LoginId && good.status === 0) {
         goods.push(good)
       }
-      if (good.userid === this.datum.LoginId && good.status === 1) {
+      if (good.userid === this.data.LoginId && good.status === 1) {
         ugoods.push(good)
       }
     }

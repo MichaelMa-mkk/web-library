@@ -107,11 +107,11 @@ export default {
   data () {
     var buys = []
     var sells = []
-    for (var good of this.datum.GoodList) {
-      if (good.to === this.datum.LoginId && good.status === 1) {
+    for (var good of this.data.GoodList) {
+      if (good.to === this.data.LoginId && good.status === 1) {
         buys.push(good)
       }
-      if (good.userid === this.datum.LoginId && good.status === 1) {
+      if (good.userid === this.data.LoginId && good.status === 1) {
         sells.push(good)
       }
     }
@@ -119,7 +119,7 @@ export default {
       buys: buys,
       sells: sells,
       score: 0,
-      users: this.datum.UserList
+      users: this.data.UserList
     }
   },
   methods: {
@@ -148,18 +148,18 @@ export default {
         return
       }
       if (type === 0) {
-        this.datum.EvalList.push({
-          belong: this.datum.LoginId,
-          to: this.datum.GoodList[goodid].userid,
+        this.data.EvalList.push({
+          belong: this.data.LoginId,
+          to: this.data.GoodList[goodid].userid,
           goodid: goodid,
           level: this.score,
           content: content
         })
       }
       if (type === 1) {
-        this.datum.EvalList.push({
-          belong: this.datum.LoginId,
-          to: this.datum.GoodList[goodid].to,
+        this.data.EvalList.push({
+          belong: this.data.LoginId,
+          to: this.data.GoodList[goodid].to,
           goodid: goodid,
           level: this.score,
           content: content
