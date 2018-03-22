@@ -1,12 +1,12 @@
 <template>
-<nav class="navbar navbar-default navbar-fixed-top">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a onclick="history.back()" class="navbar-brand glyphicon glyphicon-menu-left"></a>
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a onclick="history.back()" class="navbar-brand glyphicon glyphicon-menu-left"></a>
+        <p class="navbar-text">{{headtext}}</p>
+      </div>
     </div>
-    <p class="navbar-brand text-center">{{headtext}}</p>
-  </div>
-</nav>
+  </nav>
 </template>
 
 <script>
@@ -18,12 +18,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-p {
-  margin-bottom: 0px;
-  width: 95vw;
+.navbar-text {
+  position: fixed;
+  left: 43%;
+  font-size: 120%;
 }
-.navbar-header a {
-  padding-left: 15px;
-  padding-right: 0px;
+.navbar-header{
+  width: 100%;
 }
 </style>

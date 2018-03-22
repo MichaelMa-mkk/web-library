@@ -1,7 +1,7 @@
 <template>
 <section>
   <top-nav home="active"></top-nav>
-  <ul class="nav nav-pills nav-stacked navbar-fixed-left">
+  <!--<ul class="nav nav-pills nav-stacked navbar-fixed-left">
     <li role="presentation" class="active">
       <router-link :to="{ name: 'GoodAll' }">所有宝贝</router-link>
     </li>
@@ -12,7 +12,8 @@
   <div class="col-sm-2"></div>
   <div class="col-sm-10">
     <router-view/>
-  </div>
+  </div>-->
+  <router-view/>
 </section>
 </template>
 

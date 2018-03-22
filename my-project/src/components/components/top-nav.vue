@@ -1,35 +1,41 @@
 <template>
-<nav class="navbar navbar-inverse navbar-fixed-top">
-  <div class="container-fluid">
-    <div class="collapse navbar-collapse">
-      <ul class="nav navbar-nav">
-        <li :class="home"><router-link :to="{ name: 'Index' }">
-          <i class="glyphicon glyphicon-home"></i>
-          <p>首页</p>
-        </router-link>
-        </li>
-        <li :class="news">
-          <router-link :to="{ name: 'Message' }">
-            <i class="glyphicon glyphicon-comment"></i>
-            <p>消息<span class="badge">{{ tot }}</span></p>
-          </router-link>
-        </li>
-        <li :class="personal">
-          <a @click="check">
-            <i class="glyphicon glyphicon-user"></i>
-            <p>我的</p>
-          </a>
-        </li>
-        <li :class="search">
-          <router-link :to="{ name: 'Search' }">
-            <i class="glyphicon glyphicon-search"></i>
-            <p>搜索</p>
-          </router-link>
-        </li>
-      </ul>
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#top-nav-content" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <router-link :to="{ name: 'Index' }" class="navbar-brand">Online Bookstore</router-link>
+      </div>
+      <div class="collapse navbar-collapse" id="top-nav-content">
+        <ul class="nav navbar-nav">
+          <li :class="home">
+            <router-link :to="{ name: 'Index' }">
+              首页
+            </router-link>
+          </li>
+          <li :class="news">
+            <router-link :to="{ name: 'Message' }">
+              消息
+              <span class="badge">{{ tot }}</span>
+            </router-link>
+          </li>
+          <li :class="personal">
+            <a @click="check">
+              我的
+            </a>
+          </li>
+          <li :class="search">
+            <router-link :to="{ name: 'Search' }">搜索
+            </router-link>
+          </li>
+        </ul>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
 </template>
 
 <script>
@@ -81,14 +87,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.navbar-nav i {
-  font-size: 200%;
-}
 .navbar-nav li {
-  width: 10vw;
   text-align: center;
-}
-.navbar-nav p {
-  margin-bottom: 0px;
 }
 </style>

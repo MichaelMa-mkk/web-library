@@ -11,7 +11,7 @@
     <div class="form-group">
       <label class="col-sm-2 control-label">宝贝描述</label>
       <div class="col-sm-10">
-        <textarea class="form-control" rows="5" placeholder="描述" id="advertising"></textarea>
+        <textarea class="form-control" rows="5" placeholder="描述" id="author"></textarea>
       </div>
     </div>
     <div class="form-group">
@@ -69,17 +69,17 @@ export default {
   methods: {
     submit () {
       var name = document.getElementById('name').value
-      var advertising = document.getElementById('advertising').value
+      var author = document.getElementById('author').value
       var price = document.getElementById('price').value
       var category = document.getElementById('category').value
-      if (name === '' || advertising === '' || price === '' || category === '') {
+      if (name === '' || author === '' || price === '' || category === '') {
         alert('信息填写有遗漏')
         return
       }
       this.datum.GoodList.push({
         name: name,
-        advertising: advertising,
-        price_sell: parseFloat(price),
+        author: author,
+        price: parseFloat(price),
         category: parseInt(category),
         id: this.datum.GoodList.length,
         userid: this.datum.LoginId,

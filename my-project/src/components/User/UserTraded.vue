@@ -16,8 +16,8 @@
       <tbody>
         <tr>
           <th class="col-sm-2"><router-link :to="{ name: 'GoodDetail', params: {id: good.id} }">{{ good.name }}</router-link></th>
-          <td class="col-sm-2">￥{{ good.price_sell }}</td>
-          <td class="col-sm-7 text-elipise">{{ good.advertising }}</td>
+          <td class="col-sm-2">￥{{ good.price }}</td>
+          <td class="col-sm-7 text-elipise">{{ good.author }}</td>
           <td>
             <button role="button" class="btn btn-default" @click="insert(good.id)">评价</button>
           </td>
@@ -65,8 +65,8 @@
       <tbody>
         <tr>
           <th class="col-sm-2"><router-link :to="{ name: 'GoodDetail', params: {id: good.id} }">{{ good.name }}</router-link></th>
-          <td class="col-sm-2">￥{{ good.price_sell }}</td>
-          <td class="col-sm-7 text-elipise">{{ good.advertising }}</td>
+          <td class="col-sm-2">￥{{ good.price }}</td>
+          <td class="col-sm-7 text-elipise">{{ good.author }}</td>
           <td>
             <button role="button" class="btn btn-default" @click="insert(good.id)">评价</button>
           </td>

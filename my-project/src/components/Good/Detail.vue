@@ -1,10 +1,10 @@
 <template>
-<section>
-  <head-bar headtext="宝贝详情"></head-bar>
-  <div class="box">
+  <section>
+    <head-bar headtext="宝贝详情"></head-bar>
+    <div class="box">
       <h1>{{ good.name }}</h1>
-      <h2>{{ good.advertising }}</h2>
-      <p class="inline">￥{{ good.price_sell }}</p>
+      <h2>{{ good.author }}</h2>
+      <p class="inline">￥{{ good.price }}</p>
       <span>左右</span>
       <router-link :to="{ name: 'UserView', params: {id: good.userid} }">
         <button type="button" class="btn btn-info pull-right">卖家信息</button>
@@ -17,31 +17,33 @@
       <button v-else type="button" class="btn btn-warning pull-right" @click="star">收藏
         <i class="glyphicon glyphicon-star"></i>
       </button>
-  </div>
-  <div class="container">
-    <img :src="'../../../static/' + good.name + '.jpg'" class="center-block">
-    <div class="comment">
-      <h1><strong>评论</strong></h1>
     </div>
-    <form class="form-horizontal">
-      <div class="form-group">
-        <label class="col-sm-1 control-label">我说一句</label>
-        <div class="col-sm-8">
-          <textarea class="form-control" rows="3" id="comment-content" placeholder="请文明评论"></textarea>
-        </div>
-        <button type="button" @click="addcomment" class="btn btn-info col-sm-1 btn-comment">发表<br/>评论</button>
+    <div class="container">
+      <img :src="'../../../static/' + good.name + '.jpg'" class="center-block">
+      <div class="comment">
+        <h1>
+          <strong>评论</strong>
+        </h1>
       </div>
-    </form>
-    <table class="table table-hover">
-      <tbody>
-        <tr v-for="comment in comments" :key="comment">
-          <td class="name">{{ users[comment.userid].name }}</td>
-          <td>{{ comment.content }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</section>
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label class="col-sm-1 control-label">我说一句</label>
+          <div class="col-sm-8">
+            <textarea class="form-control" rows="3" id="comment-content" placeholder="请文明评论"></textarea>
+          </div>
+          <button type="button" @click="addcomment" class="btn btn-info col-sm-1 btn-comment">发表<br/>评论</button>
+        </div>
+      </form>
+      <table class="table table-hover">
+        <tbody>
+          <tr v-for="comment in comments" :key="comment">
+            <td class="name">{{ users[comment.userid].name }}</td>
+            <td>{{ comment.content }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -95,16 +97,18 @@ export default {
       }
     },
     star () {
-      this.isstar = !this.isstar
-      if (this.datum.LoginId === '') return
-      if (!this.isstar) {
-        for (var index in this.users[this.datum.LoginId].star) {
-          if (this.users[this.datum.LoginId].star[index] === this.good.id) {
-            this.users[this.datum.LoginId].star.splice(index, 1)
+      if (this.datum.LoginId === '') alert('请先登录')
+      else {
+        this.isstar = !this.isstar
+        if (!this.isstar) {
+          for (var index in this.users[this.datum.LoginId].star) {
+            if (this.users[this.datum.LoginId].star[index] === this.good.id) {
+              this.users[this.datum.LoginId].star.splice(index, 1)
+            }
           }
+        } else {
+          this.users[this.datum.LoginId].star.push(this.good.id)
         }
-      } else {
-        this.users[this.datum.LoginId].star.push(this.good.id)
       }
     },
     addmessage () {
@@ -137,8 +141,6 @@ export default {
     color-stop(0.1, #fff)
   );
   border: 1px solid #ccc;
-  -webkit-box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
-  -webkit-border-bottom-right-radius: 60px 5px;
 }
 .box p {
   color: orange;

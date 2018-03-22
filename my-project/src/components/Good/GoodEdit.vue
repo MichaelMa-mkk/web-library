@@ -12,7 +12,7 @@
     <div class="form-group">
       <label class="col-sm-2 control-label">宝贝描述</label>
       <div class="col-sm-10">
-        <textarea class="form-control" rows="5" placeholder="描述" id="advertising" :value="good.advertising"></textarea>
+        <textarea class="form-control" rows="5" placeholder="描述" id="author" :value="good.author"></textarea>
       </div>
     </div>
     <div class="form-group">
@@ -20,7 +20,7 @@
       <div class="col-sm-10">
         <div class="input-group col-sm-2">
           <div class="input-group-addon">￥</div>
-          <input type="text" class="form-control" placeholder="价格" id="price" :value="good.price_sell">
+          <input type="text" class="form-control" placeholder="价格" id="price" :value="good.price">
         </div>
       </div>
     </div>
@@ -101,18 +101,18 @@ export default {
   methods: {
     submit () {
       var name = document.getElementById('name').value
-      var advertising = document.getElementById('advertising').value
+      var author = document.getElementById('author').value
       var price = document.getElementById('price').value
       var category = document.getElementById('category').value
       var status = document.getElementById('status').value
       var to = document.getElementById('to').value
-      if (name === '' || advertising === '' || price === '' || (parseInt(status) === 1 && to === '')) {
+      if (name === '' || author === '' || price === '' || (parseInt(status) === 1 && to === '')) {
         alert('信息填写有遗漏')
         return
       }
       this.datum.GoodList[this.$route.params.id].name = name
-      this.datum.GoodList[this.$route.params.id].advertising = advertising
-      this.datum.GoodList[this.$route.params.id].price_sell = parseFloat(price)
+      this.datum.GoodList[this.$route.params.id].author = author
+      this.datum.GoodList[this.$route.params.id].price = parseFloat(price)
       this.datum.GoodList[this.$route.params.id].category = parseInt(category)
       this.datum.GoodList[this.$route.params.id].status = parseInt(status)
       this.datum.GoodList[this.$route.params.id].to = parseInt(to)

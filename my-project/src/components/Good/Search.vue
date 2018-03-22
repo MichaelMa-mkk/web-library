@@ -29,7 +29,7 @@
         <img :src="'../../../static/' + item.name + '.jpg'">
         <p>{{ item.name }}</p>
       </router-link>
-      <strong>￥{{ item.price_sell }}</strong>
+      <strong>￥{{ item.price }}</strong>
     </div>
   </div>
 </section>
@@ -64,14 +64,14 @@ export default {
       if (key === '') return
       if (this.selectid === 0) {
         for (var good of this.datum.GoodList) {
-          if (good.name.indexOf(key) >= 0 || good.advertising.indexOf(key) >= 0) {
+          if (good.name.indexOf(key) >= 0 || good.author.indexOf(key) >= 0) {
             this.goods.push(good)
           }
         }
       } else {
         for (good of this.datum.GoodList) {
           if (good.category === this.selectid) {
-            if (good.name.indexOf(key) >= 0 || good.advertising.indexOf(key) >= 0) {
+            if (good.name.indexOf(key) >= 0 || good.author.indexOf(key) >= 0) {
               this.goods.push(good)
             }
           }

@@ -13,8 +13,8 @@
     <tbody>
         <tr v-for="good in goods" :key="good.id">
           <th><router-link :to="{ name: 'GoodDetail', params: {id: good.id} }">{{ good.name }}</router-link></th>
-          <td>￥{{ good.price_sell }}</td>
-          <td class="text-elipise">{{ good.advertising }}</td>
+          <td>￥{{ good.price }}</td>
+          <td class="text-elipise">{{ good.author }}</td>
           <td>
             <router-link :to="{ name: 'GoodEdit', params: {id: good.id} }" role="button" class="btn btn-info btn-sm">编辑</router-link>
           </td>
@@ -34,8 +34,8 @@
     <tbody>
         <tr v-for="good in ugoods" :key="good.id">
           <th><router-link :to="{ name: 'GoodDetail', params: {id: good.id} }">{{ good.name }}</router-link></th>
-          <td>￥{{ good.price_sell }}</td>
-          <td class="text-elipise">{{ good.advertising }}</td>
+          <td>￥{{ good.price }}</td>
+          <td class="text-elipise">{{ good.author }}</td>
           <td>
             <router-link :to="{ name: 'GoodEdit', params: {id: good.id} }" role="button" class="btn btn-info btn-sm">查看</router-link>
           </td>

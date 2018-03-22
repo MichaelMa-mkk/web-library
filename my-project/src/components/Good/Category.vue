@@ -6,7 +6,7 @@
         <img :src="'../../../static/' + item.name + '.jpg'">
         <p>{{ item.name }}</p>
       </router-link>
-      <strong>￥{{ item.price_sell }}</strong>
+      <strong>￥{{ item.price }}</strong>
     </div>
   </div>
 </div>

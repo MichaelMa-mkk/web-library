@@ -10,8 +10,8 @@
   <tbody>
       <tr v-for="star in stars" :key="star">
         <th class="col-sm-2"><router-link :to="{ name: 'GoodDetail', params: {id: star} }">{{ goods[star].name }}</router-link></th>
-        <td class="col-sm-2"><router-link :to="{ name: 'GoodDetail', params: {id: star} }">￥{{ goods[star].price_sell }}</router-link></td>
-        <td class="text-elipise col-sm-7"><router-link :to="{ name: 'GoodDetail', params: {id: star} }">{{ goods[star].advertising }}</router-link></td>
+        <td class="col-sm-2"><router-link :to="{ name: 'GoodDetail', params: {id: star} }">￥{{ goods[star].price }}</router-link></td>
+        <td class="text-elipise col-sm-7"><router-link :to="{ name: 'GoodDetail', params: {id: star} }">{{ goods[star].author }}</router-link></td>
       </tr>
   </tbody>
 </table>
