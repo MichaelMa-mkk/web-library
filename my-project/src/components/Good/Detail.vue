@@ -1,122 +1,92 @@
 <template>
   <section>
-    <head-bar headtext="宝贝详情"></head-bar>
-    <div class="box">
-      <h1>{{ good.name }}</h1>
-      <h2>{{ good.author }}</h2>
-      <p class="inline">￥{{ good.price }}</p>
-      <span>左右</span>
-      <router-link :to="{ name: 'UserView', params: {id: good.userid} }">
-        <button type="button" class="btn btn-info pull-right">卖家信息</button>
-      </router-link>
-      <a v-if="good.status === 0" onclick="$('#dialog').popover('show');" data-trigger="focus" class="pull-right" data-toggle="popover" data-container="body" id="dialog" data-placement="bottom" :data-content="text">
-        <button type="button" class="btn btn-default pull-right" @click="addmessage">联系卖家</button>
-      </a>
-      <a v-else class="btn btn-default disabled pull-right" role="button">已出售</a>
-      <button v-if="isstar" type="button" class="btn btn-warning pull-right active" @click="star">已收藏</button>
-      <button v-else type="button" class="btn btn-warning pull-right" @click="star">收藏
-        <i class="glyphicon glyphicon-star"></i>
-      </button>
-    </div>
-    <div class="container">
-      <img :src="'../../../static/' + good.name + '.jpg'" class="center-block">
-      <div class="comment">
-        <h1>
-          <strong>评论</strong>
-        </h1>
-      </div>
-      <form class="form-horizontal">
-        <div class="form-group">
-          <label class="col-sm-1 control-label">我说一句</label>
-          <div class="col-sm-8">
-            <textarea class="form-control" rows="3" id="comment-content" placeholder="请文明评论"></textarea>
+    <head-bar headtext="图书详情"></head-bar>
+    <div class="jumbotron">
+      <div class="container">
+        <div class="row">
+          <p><img class="col-xs-12 col-md-5" :src="'../../../static/' + item.name + '.jpg'" /></p>
+          <div class="col-xs-12 col-md-7" id="row">
+            <h1>{{item.name}}</h1>
+            <p>作者:
+              <strong>{{item.author}}</strong>
+            </p>
+            <p>价格:
+              <strong>￥{{item.price}}</strong>
+            </p>
+            <div class="input-group">
+              <span class="input-group-addon">剩余库存:</span>
+              <input class="form-control" readonly :value="item.stock">
+            </div>
+            <a tabindex="0" class="btn btn-lg btn-warning" role="button" @click="buy" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-content="添加成功">添加至购物车
+              <span class="glyphicon glyphicon-shopping-cart"></span>
+            </a>
           </div>
-          <button type="button" @click="addcomment" class="btn btn-info col-sm-1 btn-comment">发表<br/>评论</button>
         </div>
-      </form>
-      <table class="table table-hover">
-        <tbody>
-          <tr v-for="comment in comments" :key="comment">
-            <td class="name">{{ users[comment.userid].name }}</td>
-            <td>{{ comment.content }}</td>
-          </tr>
-        </tbody>
-      </table>
+      </div>
     </div>
   </section>
 </template>
 
 <script>
 import HeadBar from '../components/head-bar'
+import $ from 'jquery'
+
 export default {
   name: 'detail',
   components: {
     HeadBar
   },
   data () {
-    var comments = []
-    var isstar = false
-    for (var comment of this.data.CommentList) {
-      if (comment.goodid === this.$route.params.id) {
-        comments.push(comment)
-      }
-    }
-    if (this.data.LoginId !== '') {
-      for (var goodid of this.data.UserList[this.data.LoginId].star) {
-        if (goodid === parseInt(this.$route.params.id)) {
-          isstar = true
-          break
-        }
-      }
-    }
+    $(function () {
+      $('[data-toggle="popover"]').popover()
+    })
     return {
-      text: this.data.LoginId !== '' ? '已经向卖家发送站内私信啦' : '请先登录',
-      good: this.data.GoodList[this.$route.params.id],
-      comments: comments,
-      users: this.data.UserList,
-      isstar: isstar
+      item: this.data.GoodList[this.$route.params.id],
+      flag1: 0,
+      flag2: 0
     }
   },
   methods: {
-    addcomment () {
+    buy () {
       if (this.data.LoginId === '') alert('请先登录')
-      else {
-        var content = document.getElementById('comment-content')
-        if (content.value !== '') {
-          this.comments.push({
-            userid: this.data.LoginId,
-            content: content.value
-          })
-          this.data.CommentList.push({
-            userid: this.data.LoginId,
-            content: content.value,
-            goodid: this.good.id
-          })
-          content.value = ''
+      else if (this.item.stock === 0) {
+        if (this.flag1 === 0) {
+          $('#row').after('<div class="alert alert-danger alert-dismissible fade in col-xs-10 col-md-3" style="margin-top: 2%; margin-left: 13px;" role="alert">' +
+            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+            '<span aria-hidden="true">&times;</span>' +
+            '</button>' +
+            '<strong>已经没有库存了哦</strong>' +
+            '</div>')
+          $('.alert').alert()
+          this.flag1 = 1
         }
-      }
-    },
-    star () {
-      if (this.data.LoginId === '') alert('请先登录')
-      else {
-        this.isstar = !this.isstar
-        if (!this.isstar) {
-          for (var index in this.users[this.data.LoginId].star) {
-            if (this.users[this.data.LoginId].star[index] === this.good.id) {
-              this.users[this.data.LoginId].star.splice(index, 1)
+      } else {
+        var buys = this.data.UserList[this.data.LoginId].buy
+        for (let item of buys) {
+          if (item.id === this.$route.params.id) {
+            item.amount += 1
+            if (item.amount > this.item.stock) {
+              if (this.flag2 === 0) {
+                $('#row').after('<div class="alert alert-danger alert-dismissible fade in col-xs-10 col-md-3" style="margin-top: 2%; margin-left: 13px;" role="alert">' +
+                  '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+                  '<span aria-hidden="true">&times;</span>' +
+                  '</button>' +
+                  '<strong>购买数量超过库存了哦</strong>' +
+                  '</div>')
+                $('.alert').alert()
+                $('[data-toggle="popover"]').popover('hide')
+                this.flag2 = 1
+              }
+              item.amount = this.item.stock
             }
+            return
           }
-        } else {
-          this.users[this.data.LoginId].star.push(this.good.id)
         }
+        buys.push({
+          id: Number(this.$route.params.id),
+          amount: 1
+        })
       }
-    },
-    addmessage () {
-      this.data.MessageList.push({
-        userid: this.data.LoginId,
-        goodid: this.good.id,
-        status: 0
-      })
     }
   }
 }
@@ -124,64 +94,22 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.box {
-  margin: 20px auto;
-  width: 90%;
-  min-height: 100px;
-  padding: 15px;
-  padding-left: 5%;
-  padding-right: 5%;
-  position: relative;
-  background: -webkit-gradient(
-    linear,
-    100% 100%,
-    50% 10%,
-    from(#fff),
-    to(#f3f3f3),
-    color-stop(0.1, #fff)
-  );
-  border: 1px solid #ccc;
+.jumbotron {
+  background-color: white;
 }
-.box p {
-  color: orange;
-  font-size: 200%;
+h1 {
+  font-size: 300%;
+  margin-bottom: 10%;
 }
-.box h2 {
-  color: gray;
-  font-size: large;
+.form-control {
+  width: 50px;
 }
-.inline {
-  display: inline;
-  margin-right: 1%;
-}
-.comment {
-  width: 100%;
-  border-bottom: 1px solid grey;
-}
-.name {
-  width: 15%;
-}
-.form-group {
-  margin-top: 15px;
-}
-.form-group label {
-  margin-left: 15px;
-}
-.btn-comment {
-  font-size: 120%;
-  padding: 1.3%;
-}
-td {
-  word-wrap: break-word;
-  margin-top: 10px;
-}
-#dialog,
-.disabled {
-  margin-left: 2%;
-  margin-right: 2%;
-}
-img {
-  height: 50%;
-  width: 50%;
+.btn {
+  margin-top: 4%;
+  font-size: 125%;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 </style>

@@ -15,12 +15,6 @@
         </a>
       </li>
       <ul class="nav nav-pills nav-stacked mini hide">
-        <li role="presentation" id="UserTraded">
-          <router-link :to="{ name: 'UserTraded' }">交易成功</router-link>
-        </li>
-        <!--<li role="presentation" id="UserTrading">
-          <router-link :to="{ name: 'UserTrading' }">等待交易</router-link>
-        </li>-->
         <li role="presentation" id="GoodPublish">
           <router-link :to="{ name: 'GoodPublish' }">我要发布</router-link>
         </li>

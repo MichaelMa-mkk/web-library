@@ -17,9 +17,9 @@
               首页
             </router-link>
           </li>
-          <li :class="news">
-            <router-link :to="{ name: 'Message' }">
-              消息
+          <li :class="cart">
+            <router-link :to="{ name: 'Cart' }">
+              购物车
               <span class="badge">{{ tot }}</span>
             </router-link>
           </li>
@@ -39,18 +39,19 @@ export default {
   name: 'top-nav',
   props: [
     'home',
-    'news',
+    'cart',
     'personal'
   ],
   data () {
     var tot = 0
-    for (var message of this.data.MessageList) {
-      if (message.status === 0 && this.data.LoginId === this.data.GoodList[message.goodid].userid) {
-        tot++
-      }
+    var buys = []
+    if (this.data.LoginId !== '') {
+      tot = this.data.UserList[this.data.LoginId].buy.length
+      buys = this.data.UserList[this.data.LoginId].buy
     }
     return {
-      tot: tot
+      tot: tot,
+      buys: buys
     }
   },
   methods: {
@@ -65,13 +66,11 @@ export default {
     }
   },
   watch: {
-    'data.MessageList': {
+    'buys': {
       handler: function (val, oldval) {
         this.tot = 0
-        for (var message of this.data.MessageList) {
-          if (message.status === 0) {
-            this.tot++
-          }
+        if (this.data.LoginId !== '') {
+          this.tot = this.data.UserList[this.data.LoginId].buy.length
         }
       },
       deep: true

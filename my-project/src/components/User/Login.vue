@@ -3,19 +3,19 @@
   <head-bar headtext="用户登录"></head-bar>
   <form class="form-horizontal">
     <div class="form-group">
-      <label class="col-sm-2 control-label">用户名</label>
-      <div class="col-sm-10">
+      <label class="col-xs-2 control-label col-md-2">用户名</label>
+      <div class="col-xs-10 col-md-8">
         <input type="text" class="form-control" id="username" placeholder="User">
       </div>
     </div>
     <div class="form-group">
-      <label class="col-sm-2 control-label">密码</label>
-      <div class="col-sm-10">
+      <label class="col-xs-2 control-label col-md-2">密码</label>
+      <div class="col-xs-10 col-md-8">
         <input type="password" class="form-control" id="password" placeholder="Password">
       </div>
     </div>
     <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-10">
+      <div class="col-xs-offset-2 col-xs-10 col-md-8">
         <div class="checkbox-inline">
           <label>
             <input type="checkbox">记住我
@@ -27,7 +27,7 @@
       </div>
     </div>
     <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-10">
+      <div class="col-xs-offset-2 col-xs-10 col-md-8">
         <button type="button" @click="login" class="btn btn-default" id="login-button">登录</button>
         <router-link :to="{ name: 'Register' }">
           <button type="button" class="btn btn-default">注册</button>

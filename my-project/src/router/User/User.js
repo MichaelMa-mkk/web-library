@@ -1,7 +1,5 @@
 import InfoList from '@/components/User/InfoList'
 import UserInfo from '@/components/User/UserInfo'
-import UserTrading from '@/components/User/UserTrading'
-import UserTraded from '@/components/User/UserTraded'
 import UserComment from '@/components/User/UserComment'
 import UserEval from '@/components/User/UserEval'
 import UserPublish from '@/components/User/UserPublish'
@@ -24,16 +22,6 @@ export default{
       component: UserInfo
     },
     {
-      path: 'trading',
-      name: 'UserTrading',
-      component: UserTrading
-    },
-    {
-      path: 'traded',
-      name: 'UserTraded',
-      component: UserTraded
-    },
-    {
       path: 'eval',
       name: 'UserEval',
       component: UserEval
@@ -44,7 +32,7 @@ export default{
       component: UserPublish
     },
     {
-      path: 'star',
+      path: 'buy',
       name: 'UserStar',
       component: UserStar
     },

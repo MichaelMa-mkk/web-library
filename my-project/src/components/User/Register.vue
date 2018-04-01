@@ -3,25 +3,25 @@
   <head-bar headtext="用户注册"></head-bar>
   <form class="form-horizontal">
   <div class="form-group">
-    <label class="col-sm-2 control-label">用户名</label>
-    <div class="col-sm-10">
+    <label class="col-sm-2 control-label col-md-2">用户名</label>
+    <div class="col-sm-10 col-md-8">
       <input type="email" class="form-control" id="username" placeholder="User">
     </div>
   </div>
   <div class="form-group">
-    <label class="col-sm-2 control-label">密码</label>
-    <div class="col-sm-10">
+    <label class="col-sm-2 control-label col-md-2">密码</label>
+    <div class="col-sm-10 col-md-8">
       <input type="password" class="form-control" id="password" placeholder="Password">
     </div>
   </div>
   <div class="form-group">
-    <label class="col-sm-2 control-label">确认密码</label>
-    <div class="col-sm-10">
+    <label class="col-sm-2 control-label col-md-2">确认密码</label>
+    <div class="col-sm-10 col-md-8">
       <input type="password" class="form-control" id="repeat" placeholder="Password Again">
     </div>
   </div>
   <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
+    <div class="col-sm-offset-2 col-sm-10 col-md-8">
       <button type="button" @click="register" class="btn btn-default">提交</button>
     </div>
   </div>
@@ -50,8 +50,8 @@ export default {
             id: len,
             name: name,
             pwd: pwd,
-            contact: '',
-            star: []
+            phone: '',
+            buy: []
           })
           var url = window.location.href
           url = url.substring(0, url.length - 8)
