@@ -13,8 +13,8 @@
           <input v-if="selectid !== 0" type="text" class="form-control" id="first">
           <span v-if="selectid !== 0" class="input-group-addon">~</span>
           <input v-if="selectid !== 0" type="text" class="form-control" id="second">
-          <div class="input-group-btn">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <div class="input-group-btn dropdown">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="$('.dropdown-toggle').dropdown();">
               {{ select }}
               <span class="caret"></span>
             </button>

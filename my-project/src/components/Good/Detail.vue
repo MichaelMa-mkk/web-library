@@ -22,7 +22,7 @@
               <span class="input-group-addon">剩余库存:</span>
               <input class="form-control" readonly :value="item.stock">
             </div>
-            <a tabindex="0" class="btn btn-lg btn-warning" role="button" @click="buy" data-toggle="popover" data-trigger="focus" data-placement="bottom" data-content="添加成功">添加至购物车
+            <a tabindex="0" id="addcart" class="btn btn-lg btn-warning" role="button" @click="buy" data-trigger="focus" data-placement="bottom" data-content="添加成功">添加至购物车
               <span class="glyphicon glyphicon-shopping-cart"></span>
             </a>
           </div>
@@ -42,9 +42,6 @@ export default {
     HeadBar
   },
   data () {
-    $(function () {
-      $('[data-toggle="popover"]').popover()
-    })
     return {
       item: this.data.GoodList[this.$route.params.id],
       flag1: 0,
@@ -56,6 +53,7 @@ export default {
       if (this.data.LoginId === '') alert('请先登录')
       else if (this.item.stock === 0) {
         if (this.flag1 === 0) {
+          $('#addcart').popover('destroy')
           $('#row').after('<div class="alert alert-danger alert-dismissible fade in col-xs-10 col-md-3" style="margin-top: 2%; margin-left: 13px;" role="alert">' +
             '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
             '<span aria-hidden="true">&times;</span>' +
@@ -71,6 +69,7 @@ export default {
           if (item.id === this.$route.params.id) {
             item.amount += 1
             if (item.amount > this.item.stock) {
+              $('#addcart').popover('destroy')
               if (this.flag2 === 0) {
                 $('#row').after('<div class="alert alert-danger alert-dismissible fade in col-xs-10 col-md-3" style="margin-top: 2%; margin-left: 13px;" role="alert">' +
                   '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
@@ -79,11 +78,11 @@ export default {
                   '<strong>购买数量超过库存了哦</strong>' +
                   '</div>')
                 $('.alert').alert()
-                $('[data-toggle="popover"]').popover('hide')
                 this.flag2 = 1
               }
               item.amount = this.item.stock
-              $('[data-toggle="popover"]').popover('hide')
+            } else {
+              $('#addcart').popover('show')
             }
             return
           }
@@ -92,6 +91,7 @@ export default {
           id: Number(this.$route.params.id),
           amount: 1
         })
+        $('#addcart').popover('show')
       }
     }
   }

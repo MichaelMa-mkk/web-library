@@ -20,7 +20,7 @@
           <li :class="cart">
             <router-link :to="{ name: 'Cart' }">
               购物车
-              <span class="badge">{{ tot }}</span>
+              <span class="badge">{{ mytot }}</span>
             </router-link>
           </li>
           <li :class="personal">
@@ -40,17 +40,18 @@ export default {
   props: [
     'home',
     'cart',
-    'personal'
+    'personal',
+    'tot'
   ],
   data () {
-    var tot = 0
     var buys = []
+    var mytot = 0
     if (this.data.LoginId !== '') {
-      tot = this.data.UserList[this.data.LoginId].buy.length
+      mytot = this.data.UserList[this.data.LoginId].buy.length
       buys = this.data.UserList[this.data.LoginId].buy
     }
     return {
-      tot: tot,
+      mytot: isNaN(this.tot) ? mytot : this.tot,
       buys: buys
     }
   },
@@ -68,12 +69,18 @@ export default {
   watch: {
     'buys': {
       handler: function (val, oldval) {
-        this.tot = 0
+        console.log('watch')
+        this.mytot = 0
         if (this.data.LoginId !== '') {
-          this.tot = this.data.UserList[this.data.LoginId].buy.length
+          this.mytot = this.data.UserList[this.data.LoginId].buy.length
         }
       },
       deep: true
+    },
+    'tot': {
+      handler: function (val, oldval) {
+        this.mytot = isNaN(val) ? this.mytot : val
+      }
     }
   }
 }

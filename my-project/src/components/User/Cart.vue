@@ -1,6 +1,6 @@
 <template>
   <section class="container">
-    <top-nav cart="active"></top-nav>
+    <top-nav cart="active" :tot="tot"></top-nav>
     <div v-if="login" class="table-responsive">
       <table class="table table-hover">
         <thead>
@@ -43,7 +43,7 @@
             <td></td>
             <th>总价： ￥{{totPrice}}</th>
             <td>
-              <button type="button" class="btn btn-warning">
+              <button type="button" class="btn btn-warning" @click="buy">
                 去结算
               </button>
             </td>
@@ -65,8 +65,10 @@ export default {
   },
   data () {
     var items = []
+    var tot = 0
     if (this.data.LoginId !== '') {
       items = this.data.UserList[this.data.LoginId].buy
+      tot = this.data.UserList[this.data.LoginId].buy.length
     }
     var totPrice = 0
     for (let item of items) {
@@ -76,7 +78,8 @@ export default {
       goods: this.data.GoodList,
       items: items,
       login: this.data.LoginId !== '',
-      totPrice: totPrice
+      totPrice: totPrice,
+      tot: tot
     }
   },
   methods: {
@@ -96,6 +99,17 @@ export default {
           this.items.splice(i, 1)
         }
       }
+    },
+    buy () {
+      this.data.OrderList.push({
+        id: this.data.OrderList.length,
+        userid: this.data.LoginId,
+        buy: this.data.UserList[this.data.LoginId].buy,
+        time: Date()
+      })
+      this.data.UserList[this.data.LoginId].buy = []
+      this.items = []
+      this.tot = 0
     }
   },
   watch: {

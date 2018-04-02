@@ -89,8 +89,13 @@ var OrderList = [
     id: 0,
     userid: 0,
     buy: [{ id: 0, amount: 1 }, { id: 1, amount: 1 }, { id: 2, amount: 1 }],
-    time: new Date(),
-    date: ''
+    time: new Date()
+  },
+  {
+    id: 1,
+    userid: 0,
+    buy: [{ id: 4, amount: 1 }, { id: 3, amount: 1 }, { id: 6, amount: 1 }],
+    time: new Date()
   }
 ]
 export default {
