@@ -1,40 +1,42 @@
 <template>
-<section>
-  <top-nav personal="active"></top-nav>
-  <ul class="nav nav-pills nav-stacked navbar-fixed-left">
-    <li role="presentation" id="UserInfo">
-      <router-link :to="{ name: 'UserInfo' }">我的信息</router-link>
-    </li>
-    <li role="presentation" id="UserStar">
-      <router-link :to="{ name: 'UserStar' }">我的收藏</router-link>
-    </li>
-    <li>
-      <li @click="toggle">
-        <a class="dropdown-toggle">我的宝贝
-        <span class="caret"></span>
-        </a>
+  <section>
+    <top-nav personal="active"></top-nav>
+    <ul class="nav nav-pills nav-stacked navbar-fixed-left">
+      <li role="presentation" id="UserInfo">
+        <router-link :to="{ name: 'UserInfo' }">我的信息</router-link>
       </li>
-      <ul class="nav nav-pills nav-stacked mini hide">
-        <li role="presentation" id="GoodPublish">
-          <router-link :to="{ name: 'GoodPublish' }">我要发布</router-link>
+      <li role="presentation" id="UserOrder">
+        <router-link :to="{ name: 'UserOrder' }">我的订单</router-link>
+      </li>
+      <!--<li>
+        <li @click="toggle">
+          <a class="dropdown-toggle">我的宝贝
+            <span class="caret"></span>
+          </a>
         </li>
-        <li role="presentation" id="UserPublish">
-          <router-link :to="{ name: 'UserPublish' }">发布成功</router-link>
-        </li>
-      </ul>
-    </li>
-    <li role="presentation" id="UserEval">
-      <router-link :to="{ name: 'UserEval' }">我的评价</router-link>
-    </li>
-    <li role="presentation" id="UserComment">
-      <router-link :to="{ name: 'UserComment' }">我的评论</router-link>
-    </li>
-  </ul>
-  <div class="col-sm-2"></div>
-  <div class="col-sm-8">
-    <router-view/>
-  </div>
-</section>
+        <ul class="nav nav-pills nav-stacked mini hide">
+          <li role="presentation" id="GoodPublish">
+            <router-link :to="{ name: 'GoodPublish' }">我要发布</router-link>
+          </li>
+          <li role="presentation" id="UserPublish">
+            <router-link :to="{ name: 'UserPublish' }">发布成功</router-link>
+          </li>
+        </ul>
+      </li>
+      <li role="presentation" id="UserEval">
+        <router-link :to="{ name: 'UserEval' }">我的评价</router-link>
+      </li>
+      <li role="presentation" id="UserComment">
+        <router-link :to="{ name: 'UserComment' }">我的评论</router-link>
+      </li>-->
+    </ul>
+    <div class="row">
+      <div class="col-xs-4 col-md-2"></div>
+      <div class="col-xs-7 col-md-8">
+        <router-view/>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>

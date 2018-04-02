@@ -2,6 +2,7 @@ var GoodList = [
   {
     name: '从零开始的异世界生活7',
     author: '长月达平',
+    abstract: '23333333333其实这是轻小说书店',
     price: 2800,
     id: 0,
     stock: 10,
@@ -10,6 +11,7 @@ var GoodList = [
   {
     name: '打工吧！魔王大人',
     author: '和原聪司',
+    abstract: '23333333333其实这是轻小说书店',
     price: 1300,
     id: 1,
     stock: 100,
@@ -18,6 +20,7 @@ var GoodList = [
   {
     name: '刀剑神域13',
     author: '川原砾',
+    abstract: '23333333333其实这是轻小说书店',
     price: 2999,
     id: 2,
     stock: 5,
@@ -26,6 +29,7 @@ var GoodList = [
   {
     name: '刀剑神域17',
     author: '川原砾',
+    abstract: '23333333333其实这是轻小说书店',
     price: 400,
     id: 3,
     stock: 200,
@@ -34,6 +38,7 @@ var GoodList = [
   {
     name: '刀剑神域19',
     author: '川原砾',
+    abstract: '23333333333其实这是轻小说书店',
     price: 100,
     id: 4,
     stock: 0,
@@ -42,6 +47,7 @@ var GoodList = [
   {
     name: '刀剑神域进击篇4',
     author: '川原砾',
+    abstract: '23333333333其实这是轻小说书店',
     price: 4300,
     id: 5,
     stock: 100,
@@ -50,6 +56,7 @@ var GoodList = [
   {
     name: '你的名字',
     author: '新海诚',
+    abstract: '23333333333其实这是轻小说书店',
     price: 6600,
     id: 6,
     stock: 40,
@@ -58,6 +65,7 @@ var GoodList = [
   {
     name: '我的青春恋爱物语果然有问题',
     author: '渡航',
+    abstract: '23333333333其实这是轻小说书店',
     price: 499,
     id: 7,
     stock: 0,
@@ -67,22 +75,24 @@ var GoodList = [
 var UserList = [
   {
     id: 0,
-    name: '宋逸凡',
-    phone: '88888888888',
-    pwd: 'a12345678',
-    buy: [],
-    email: ''
-  },
-  {
-    id: 1,
     name: 'newuser',
-    phone: '',
-    pwd: '123',
+    phone: '98723398700',
+    pwd: '123a',
     buy: [{ id: 0, amount: 1 }, { id: 1, amount: 1 }, { id: 2, amount: 1 }],
-    email: ''
+    email: '123@mk.com',
+    icon: ''
   }
 ]
 var LoginId = ''
+var OrderList = [
+  {
+    id: 0,
+    userid: 0,
+    buy: [{ id: 0, amount: 1 }, { id: 1, amount: 1 }, { id: 2, amount: 1 }],
+    time: new Date(),
+    date: ''
+  }
+]
 export default {
-  GoodList, UserList, LoginId
+  GoodList, UserList, LoginId, OrderList
 }

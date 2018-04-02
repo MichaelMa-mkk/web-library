@@ -7,11 +7,16 @@
           <p><img class="col-xs-12 col-md-5" :src="'../../../static/' + item.name + '.jpg'" /></p>
           <div class="col-xs-12 col-md-7" id="row">
             <h1>{{item.name}}</h1>
-            <p>作者:
-              <strong>{{item.author}}</strong>
+            <p>
+              <strong>作者:</strong>
+              {{item.author}}
             </p>
-            <p>价格:
-              <strong>￥{{item.price}}</strong>
+            <p>
+              <strong>价格:</strong>
+              ￥{{item.price}}
+            </p>
+            <p>
+              <strong>摘要：</strong>{{item.abstract}}
             </p>
             <div class="input-group">
               <span class="input-group-addon">剩余库存:</span>
@@ -78,6 +83,7 @@ export default {
                 this.flag2 = 1
               }
               item.amount = this.item.stock
+              $('[data-toggle="popover"]').popover('hide')
             }
             return
           }

@@ -89,12 +89,8 @@
 export default {
   name: 'good-all',
   data () {
-    var goods = []
-    for (var good of this.data.GoodList) {
-      goods.push(good)
-    }
     return {
-      goods: goods,
+      goods: this.data.GoodList,
       select: '全部商品',
       selectid: 0,
       button: ''

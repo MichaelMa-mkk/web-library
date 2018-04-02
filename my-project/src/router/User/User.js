@@ -3,7 +3,7 @@ import UserInfo from '@/components/User/UserInfo'
 import UserComment from '@/components/User/UserComment'
 import UserEval from '@/components/User/UserEval'
 import UserPublish from '@/components/User/UserPublish'
-import UserStar from '@/components/User/UserStar'
+import UserOrder from '@/components/User/UserOrder'
 
 export default{
   path: '/user',
@@ -32,9 +32,9 @@ export default{
       component: UserPublish
     },
     {
-      path: 'buy',
-      name: 'UserStar',
-      component: UserStar
+      path: 'order',
+      name: 'UserOrder',
+      component: UserOrder
     },
     {
       path: 'comment',
