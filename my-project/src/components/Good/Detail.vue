@@ -16,7 +16,7 @@
               ￥{{item.price}}
             </p>
             <p>
-              <strong>摘要：</strong>{{item.abstract}}
+              <strong>摘要：</strong>{{item.summary}}
             </p>
             <div class="input-group">
               <span class="input-group-addon">剩余库存:</span>
@@ -43,10 +43,16 @@ export default {
   },
   data () {
     return {
-      item: this.data.GoodList[this.$route.params.id],
+      item: '', // this.data.GoodList[this.$route.params.id],
       flag1: 0,
       flag2: 0
     }
+  },
+  mounted () {
+    this.$http.post('/getitem', { id: this.$route.params.id })
+      .then((response) => {
+        this.item = response.data
+      })
   },
   methods: {
     buy () {
