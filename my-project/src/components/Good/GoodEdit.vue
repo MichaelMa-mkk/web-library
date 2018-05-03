@@ -87,12 +87,12 @@ export default {
     var users = []
     for (var message of this.data.MessageList) {
       if (message.goodid === good.id) {
-        users.push(this.data.UserList[message.userid])
+        users.push(this.data.LoginUser[message.userid])
       }
     }
     return {
       good: good,
-      login: this.data.LoginId === good.userid,
+      login: this.data.LoginUser.id === good.userid,
       selected: good.status,
       users: users,
       categories: this.data.CategoryList

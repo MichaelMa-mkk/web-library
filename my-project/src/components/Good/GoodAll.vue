@@ -216,9 +216,10 @@ export default {
     }
   },
   mounted () {
-    this.$http.post('/getgoods')
+    this.$http.get('/getgoods')
       .then((response) => {
         this.goods = response.data.goods
+        this.data.GoodList = this.goods
       })
     document.onkeydown = this.keyListener
     var buttons = document.getElementsByTagName('button')

@@ -13,29 +13,29 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in items" :key="item.id">
+          <tr v-for="item in items" :key="item.bookid">
             <th>
-              <router-link :to="{ name: 'GoodDetail', params: {id: item.id} }" class="textelli">{{ goods[item.id].name }}</router-link>
+              <router-link :to="{ name: 'GoodDetail', params: {id: item.bookid} }" class="textelli">{{ goods[item.bookid].name }}</router-link>
             </th>
             <td>
-              <router-link :to="{ name: 'GoodDetail', params: {id: item.id} }">{{ goods[item.id].author }}</router-link>
+              <router-link :to="{ name: 'GoodDetail', params: {id: item.bookid} }">{{ goods[item.bookid].author }}</router-link>
             </td>
             <td>
-              <router-link :to="{ name: 'GoodDetail', params: {id: item.id} }">￥{{ goods[item.id].price }}</router-link>
+              <router-link :to="{ name: 'GoodDetail', params: {id: item.bookid} }">￥{{ goods[item.bookid].price }}</router-link>
             </td>
             <td>
               <div class="input-group input-group-sm">
                 <div class="input-group-btn">
-                  <button type="button" class="btn btn-default" @click="changeAmount(-1,item.id)">-</button>
+                  <button type="button" class="btn btn-default" @click="changeAmount(-1,item.bookid)">-</button>
                 </div>
                 <input type="text" class="form-control" readonly :value="item.amount">
                 <div class="input-group-btn">
-                  <button type="button" class="btn btn-default" @click="changeAmount(1,item.id)">+</button>
+                  <button type="button" class="btn btn-default" @click="changeAmount(1,item.bookid)">+</button>
                 </div>
               </div>
             </td>
             <td>
-              <a class="glyphicon glyphicon-trash" @click="deleteItem(item.id)"></a>
+              <a class="glyphicon glyphicon-trash" @click="deleteItem(item.bookid)"></a>
             </td>
           </tr>
           <tr>
@@ -64,29 +64,22 @@ export default {
     TopNav
   },
   data () {
-    var items = []
-    var tot = 0
-    if (this.data.LoginId !== '') {
-      items = this.data.UserList[this.data.LoginId].buy
-      tot = this.data.UserList[this.data.LoginId].buy.length
-    }
-    var totPrice = 0
-    for (let item of items) {
-      totPrice += Number(this.data.GoodList[item.id].price) * item.amount
-    }
     return {
-      goods: this.data.GoodList,
-      items: items,
-      login: this.data.LoginId !== '',
-      totPrice: totPrice,
-      tot: tot
+      goods: [],
+      items: [],
+      login: this.data.LoginUser.id !== null,
+      totPrice: 0,
+      tot: 0
     }
   },
   methods: {
     changeAmount (delta, id) {
       for (let item of this.items) {
-        if (item.id === id) {
-          item.amount += delta
+        if (item.bookid === id) {
+          this.$http.post('/addcart', { bookid: item.bookid, amount: item.amount + delta })
+            .then((response) => {
+              item.amount += delta
+            })
         }
         if (item.amount < 1) {
           item.amount = 1
@@ -95,21 +88,59 @@ export default {
     },
     deleteItem (id) {
       for (var i = 0; i < this.items.length; i++) {
-        if (this.items[i].id === id) {
-          this.items.splice(i, 1)
+        if (this.items[i].bookid === id) {
+          this.$http.post('/deletecart', { bookid: id })
+            .then((response) => {
+              this.items.splice(i, 1)
+            })
         }
       }
     },
     buy () {
-      this.data.OrderList.push({
+      /* this.data.OrderList.push({
         id: this.data.OrderList.length,
-        userid: this.data.LoginId,
-        buy: this.data.UserList[this.data.LoginId].buy,
+        userid: this.data.LoginUser.id,
+        cart: this.data.LoginUser.cart,
         time: Date()
-      })
-      this.data.UserList[this.data.LoginId].buy = []
-      this.items = []
-      this.tot = 0
+      }) */
+      this.$http.post('/addorder', { userid: this.data.LoginUser.id, items: this.items })
+        .then((response) => {
+          this.data.LoginUser.cart = []
+          this.items = []
+          this.tot = 0
+        })
+        .catch((error) => {
+          if (error.response) {
+            if (error.response === 400) {
+              alert('请重新登录')
+            }
+          }
+        })
+    }
+  },
+  mounted () {
+    if (this.data.GoodList.length === 0 && this.data.LoginUser.id) {
+      this.$http.get('/getgoods')
+        .then((response) => {
+          this.data.GoodList = response.data.goods
+          this.goods = this.data.GoodList
+          this.totPrice = 0
+          for (let item of this.items) {
+            this.totPrice += Number(this.data.GoodList[item.bookid].price) * item.amount
+          }
+        })
+    }
+    this.goods = this.data.GoodList
+    if (this.data.LoginUser.id !== null) {
+      // add getcart backend
+      this.items = this.data.LoginUser.cart
+      this.tot = this.data.LoginUser.cart.length
+    }
+    if (this.data.GoodList.length !== 0) {
+      this.totPrice = 0
+      for (let item of this.items) {
+        this.totPrice += Number(this.data.GoodList[item.bookid].price) * item.amount
+      }
     }
   },
   watch: {
@@ -117,7 +148,7 @@ export default {
       handler: function (val, oldval) {
         this.totPrice = 0
         for (let item of val) {
-          this.totPrice += Number(this.data.GoodList[item.id].price) * item.amount
+          this.totPrice += Number(this.data.GoodList[item.bookid].price) * item.amount
         }
       },
       deep: true

@@ -43,16 +43,16 @@
           </tr>
         </thead>
         <tbody v-for="order in orders" :key="order.id">
-          <tr v-for="(item, iIndex) in order.buy" :key="item.id">
+          <tr v-for="(item, iIndex) in order.items" :key="item.id">
             <td v-if="iIndex === 0">
-              {{order.date}}
+              {{order.time}}
             </td>
             <td v-else></td>
             <td>
-              <router-link :to="{ name: 'GoodDetail', params: {id: item.id} }">{{items[item.id].name}}</router-link>
+              <router-link :to="{ name: 'GoodDetail', params: {id: item.bookid} }">{{items[item.bookid].name}}</router-link>
             </td>
-            <td>{{items[item.id].author}}</td>
-            <td>￥{{items[item.id].price}}</td>
+            <td>{{items[item.bookid].author}}</td>
+            <td>￥{{items[item.bookid].price}}</td>
           </tr>
           <tr>
             <td></td>
@@ -70,20 +70,9 @@
 export default {
   name: 'user-order',
   data () {
-    var orders = []
-    for (let order of this.data.OrderList) {
-      if (order.userid === this.data.LoginId) {
-        order.date = order.time.toLocaleDateString()
-        order.tot = 0
-        for (let item of order.buy) {
-          order.tot += this.data.GoodList[item.id].price
-        }
-        orders.push(order)
-      }
-    }
     return {
-      orders: orders,
-      items: this.data.GoodList,
+      orders: [],
+      items: [],
       select: '全部商品',
       selectid: 0,
       button: ''
@@ -147,6 +136,53 @@ export default {
     }
   },
   mounted () {
+    if (this.data.LoginUser.id === null) {
+      var url = window.location.href
+      url = url.substring(0, url.length - 10)
+      window.location.href = url + 'login'
+      return
+    }
+    if (this.data.GoodList.length === 0) {
+      this.$http.get('/getgoods')
+        .then((response) => {
+          this.data.GoodList = response.data.goods
+          this.items = this.data.GoodList
+          this.orders = []
+          this.$http.get('/getorders', { params: { id: this.data.LoginUser.id } })
+            .then((response) => {
+              this.orders = response.data.orders
+              for (let order of this.orders) {
+                order.tot = 0
+                for (let item of order.items) {
+                  order.tot += this.data.GoodList[item.bookid].price
+                }
+              }
+            })
+          /* for (let order of this.data.OrderList) {
+            if (order.userid === this.data.LoginUser.id) {
+              order.date = order.time.toLocaleDateString()
+              order.tot = 0
+              for (let item of order.buy) {
+                order.tot += this.data.GoodList[item.id].price
+              }
+              this.orders.push(order)
+            }
+          } */
+        })
+    } else {
+      this.items = this.data.GoodList
+      this.orders = []
+      this.$http.get('/getorders', { params: { id: this.data.LoginUser.id } })
+        .then((response) => {
+          this.orders = response.data.orders
+          for (let order of this.orders) {
+            order.tot = 0
+            for (let item of order.items) {
+              order.tot += this.data.GoodList[item.bookid].price
+            }
+          }
+        })
+    }
     document.onkeydown = this.keyListener
     var buttons = document.getElementsByTagName('button')
     for (var button of buttons) {

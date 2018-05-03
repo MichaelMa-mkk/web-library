@@ -6,7 +6,14 @@
 
 <script>
 export default {
-  name: 'app'
+  name: 'app',
+  mounted () {
+    this.$http.post('/loginstatus')
+      .then((response) => {
+        console.log(response)
+        this.data.LoginUser.id = response.data.id === 0 ? null : response.data.id
+      })
+  }
 }
 </script>
 
