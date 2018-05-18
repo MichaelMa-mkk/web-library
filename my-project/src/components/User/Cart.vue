@@ -43,7 +43,7 @@
             <td></td>
             <th>总价： ￥{{totPrice}}</th>
             <td>
-              <button type="button" class="btn btn-warning" @click="buy">
+              <button v-if="items.length !== 0" type="button" class="btn btn-warning" @click="buy">
                 去结算
               </button>
             </td>
@@ -76,6 +76,7 @@ export default {
     changeAmount (delta, id) {
       for (let item of this.items) {
         if (item.bookid === id) {
+          // decrease item stock not published
           this.$http.post('/addcart', { bookid: item.bookid, amount: item.amount + delta })
             .then((response) => {
               item.amount += delta
@@ -97,17 +98,14 @@ export default {
       }
     },
     buy () {
-      /* this.data.OrderList.push({
-        id: this.data.OrderList.length,
-        userid: this.data.LoginUser.id,
-        cart: this.data.LoginUser.cart,
-        time: Date()
-      }) */
       this.$http.post('/addorder', { userid: this.data.LoginUser.id, items: this.items })
         .then((response) => {
           this.data.LoginUser.cart = []
           this.items = []
           this.tot = 0
+          var url = window.location.href
+          url = url.substring(0, url.indexOf('#/'))
+          window.location.href = url + '#/user/order'
         })
         .catch((error) => {
           if (error.response) {

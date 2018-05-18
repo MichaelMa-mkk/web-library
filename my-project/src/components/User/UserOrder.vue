@@ -40,6 +40,7 @@
             <th>书名</th>
             <th>作者</th>
             <th>价格</th>
+            <th>数量</th>
           </tr>
         </thead>
         <tbody v-for="order in orders" :key="order.id">
@@ -49,12 +50,14 @@
             </td>
             <td v-else></td>
             <td>
-              <router-link :to="{ name: 'GoodDetail', params: {id: item.bookid} }">{{items[item.bookid].name}}</router-link>
+              <router-link :to="{ name: 'GoodDetail', params: {id: item.book.id} }">{{item.book.name}}</router-link>
             </td>
-            <td>{{items[item.bookid].author}}</td>
-            <td>￥{{items[item.bookid].price}}</td>
+            <td>{{item.book.author}}</td>
+            <td>￥{{item.book.price}}</td>
+            <td>{{item.amount}}</td>
           </tr>
           <tr>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>
@@ -72,7 +75,6 @@ export default {
   data () {
     return {
       orders: [],
-      items: [],
       select: '全部商品',
       selectid: 0,
       button: ''
@@ -83,38 +85,6 @@ export default {
       this.selectid = id
     },
     search (mode) {
-      var key = document.getElementsByTagName('input')[0].value
-      this.goods = []
-      if (key === '' || mode === 0) {
-        document.getElementsByTagName('input')[0].value = ''
-        for (var good of this.data.GoodList) {
-          this.goods.push(good)
-        }
-        return
-      }
-      if (this.selectid === 0) {
-        for (good of this.data.GoodList) {
-          if (good.name.indexOf(key) >= 0 || good.author.indexOf(key) >= 0) {
-            this.goods.push(good)
-          }
-        }
-      } else if (this.selectid === 1) {
-        key = document.getElementById('first').value
-        var key2 = document.getElementById('second').value
-        for (good of this.data.GoodList) {
-          if (Number(good.year) >= Number(key) && Number(good.year) <= Number(key2)) {
-            this.goods.push(good)
-          }
-        }
-      } else {
-        key = document.getElementById('first').value
-        key2 = document.getElementById('second').value
-        for (good of this.data.GoodList) {
-          if (Number(good.price) >= Number(key) && Number(good.price) <= Number(key2)) {
-            this.goods.push(good)
-          }
-        }
-      }
     },
     keyListener (e) {
       if (e.keyCode === 13) {
@@ -142,47 +112,17 @@ export default {
       window.location.href = url + 'login'
       return
     }
-    if (this.data.GoodList.length === 0) {
-      this.$http.get('/getgoods')
-        .then((response) => {
-          this.data.GoodList = response.data.goods
-          this.items = this.data.GoodList
-          this.orders = []
-          this.$http.get('/getorders', { params: { id: this.data.LoginUser.id } })
-            .then((response) => {
-              this.orders = response.data.orders
-              for (let order of this.orders) {
-                order.tot = 0
-                for (let item of order.items) {
-                  order.tot += this.data.GoodList[item.bookid].price
-                }
-              }
-            })
-          /* for (let order of this.data.OrderList) {
-            if (order.userid === this.data.LoginUser.id) {
-              order.date = order.time.toLocaleDateString()
-              order.tot = 0
-              for (let item of order.buy) {
-                order.tot += this.data.GoodList[item.id].price
-              }
-              this.orders.push(order)
-            }
-          } */
-        })
-    } else {
-      this.items = this.data.GoodList
-      this.orders = []
-      this.$http.get('/getorders', { params: { id: this.data.LoginUser.id } })
-        .then((response) => {
-          this.orders = response.data.orders
-          for (let order of this.orders) {
-            order.tot = 0
-            for (let item of order.items) {
-              order.tot += this.data.GoodList[item.bookid].price
-            }
+    this.$http.get('/getorders', { params: { id: this.data.LoginUser.id } })
+      .then((response) => {
+        console.log(response.data.orders)
+        this.orders = response.data.orders
+        for (let order of this.orders) {
+          order.tot = 0
+          for (let item of order.items) {
+            order.tot += item.book.price * item.amount
           }
-        })
-    }
+        }
+      })
     document.onkeydown = this.keyListener
     var buttons = document.getElementsByTagName('button')
     for (var button of buttons) {

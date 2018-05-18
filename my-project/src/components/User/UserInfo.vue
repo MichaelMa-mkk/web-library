@@ -2,9 +2,9 @@
   <form v-if="login" class="form-horizontal">
     <div class="form-group">
       <label class="col-md-2 control-label">头像</label>
-      <img v-if="user.icon === null" src="../../../static/default.svg" alt="140x140" class="img-circle" />
-      <img v-else :src="user.icon" alt="140x140" class="img-circle" />
-      <input type="file" class="inline hide" id="icon">
+      <img v-if="showicon" :src="user.icon" alt="140x140" class="img-circle" />
+      <img v-else src="../../../static/default.svg" alt="140x140" class="img-circle" />
+      <input accept="image/*" type="file" class="inline" id="icon">
     </div>
     <div class="form-group">
       <label class="col-md-2 control-label">用户名</label>
@@ -50,6 +50,7 @@ export default {
     return {
       login: this.data.LoginUser.id !== null,
       user: '',
+      showicon: false,
       button: ''
     }
   },
@@ -74,7 +75,7 @@ export default {
       var name = document.getElementById('name').value
       var phone = document.getElementById('phone').value
       var email = document.getElementById('email').value
-      var icon = document.getElementById('icon').value
+      var icon = document.getElementById('icon').files[0]
       var flag = true
       if (phone.length !== 11) {
         $('#dialog').popover('destroy')
@@ -83,9 +84,15 @@ export default {
         flag = false
       }
       // user icon need backend!!!!!!!!
-      if (icon !== '') {
-        this.data.LoginUser.icon = icon
-        this.user.icon = icon
+      if (icon) {
+        var r = new FileReader() // 本地预览
+        r.readAsDataURL(icon) // Base64
+        r.onload = () => {
+          this.data.LoginUser.icon = r.result
+          this.user.icon = r.result
+          this.showicon = true
+          console.log(this.user)
+        }
       }
       // eslint-disable-next-line
       var re = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/
@@ -135,6 +142,7 @@ export default {
       .then((response) => {
         this.data.LoginUser = response.data
         this.user = response.data
+        if (this.user.icon) this.showicon = true
       })
       .catch((error) => {
         if (error.response) {
@@ -162,5 +170,9 @@ export default {
 <style scoped>
 .inline {
   float: right;
+}
+img{
+  width: 140px;
+  height: 140px;
 }
 </style>

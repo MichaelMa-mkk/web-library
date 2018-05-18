@@ -8,10 +8,16 @@
 export default {
   name: 'app',
   mounted () {
-    this.$http.post('/loginstatus')
+    this.$http.get('/loginstatus')
       .then((response) => {
         console.log(response)
         this.data.LoginUser.id = response.data.id === 0 ? null : response.data.id
+        if (this.data.LoginUser.id !== null) {
+          this.$http.get('/getuser', { params: { id: this.data.LoginUser.id } })
+            .then((response) => {
+              this.data.LoginUser = response.data
+            })
+        }
       })
   }
 }
