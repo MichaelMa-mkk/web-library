@@ -114,7 +114,6 @@ export default {
     }
     this.$http.get('/getorders', { params: { id: this.data.LoginUser.id } })
       .then((response) => {
-        console.log(response.data.orders)
         this.orders = response.data.orders
         for (let order of this.orders) {
           order.tot = 0

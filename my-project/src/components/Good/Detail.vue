@@ -4,7 +4,7 @@
     <div class="jumbotron">
       <div class="container">
         <div class="row">
-          <p><img class="col-xs-12 col-md-5" :src="'../../../static/' + item.name + '.jpg'" /></p>
+          <p><img class="col-xs-12 col-md-5" :src="'../../../static/' + item.id + '.jpg'" /></p>
           <div class="col-xs-12 col-md-7" id="row">
             <h1>{{item.name}}</h1>
             <p>

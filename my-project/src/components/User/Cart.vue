@@ -92,7 +92,12 @@ export default {
         if (this.items[i].bookid === id) {
           this.$http.post('/deletecart', { bookid: id })
             .then((response) => {
-              this.items.splice(i, 1)
+              for (var i = 0; i < this.items.length; i++) {
+                if (this.items[i].bookid === id) {
+                  this.items.splice(i, 1)
+                  break
+                }
+              }
             })
         }
       }

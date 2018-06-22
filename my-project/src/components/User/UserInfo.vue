@@ -88,10 +88,13 @@ export default {
         var r = new FileReader() // 本地预览
         r.readAsDataURL(icon) // Base64
         r.onload = () => {
-          this.data.LoginUser.icon = r.result
-          this.user.icon = r.result
-          this.showicon = true
-          console.log(this.user)
+          this.$http.post('/updateicon', { icon: r.result, id: this.data.LoginUser.id })
+            .then((response) => {
+              this.data.LoginUser.icon = response.icon
+              this.user.icon = response.icon
+              this.showicon = true
+              console.log(this.user)
+            })
         }
       }
       // eslint-disable-next-line
@@ -171,7 +174,7 @@ export default {
 .inline {
   float: right;
 }
-img{
+img {
   width: 140px;
   height: 140px;
 }

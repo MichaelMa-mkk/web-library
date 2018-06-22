@@ -16,8 +16,7 @@ export default {
   },
   methods: {
     aa () {
-      this.$http.post('/vprocesslogin',
-        { tip: this.tip })
+      this.$http.post('/getsales')
         .then(function (response) {
           console.log(response)
           if (response.status === 200) {
