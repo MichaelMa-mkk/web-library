@@ -23,9 +23,9 @@ export default new Router({
       }
     },
     GoodList,
-    ...GoodDetail,
+    GoodDetail,
     User,
-    Admin,
+    ...Admin,
     {
       path: '/register',
       name: 'Register',

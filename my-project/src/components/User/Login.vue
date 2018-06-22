@@ -61,6 +61,11 @@ export default {
             alert('用户名或密码错误')
           }
         })
+        .catch((error) => {
+          if (error.response.status === 400) {
+            alert('你被ban了')
+          }
+        })
     },
     keyListener (e) {
       if (e.keyCode === 13) {

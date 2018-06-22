@@ -22,7 +22,7 @@
 import TopNav from '@/components/components/top-nav'
 
 export default {
-  name: 'user-info',
+  name: 'info-list',
   components: {
     TopNav
   },

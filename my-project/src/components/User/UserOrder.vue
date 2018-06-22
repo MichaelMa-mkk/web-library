@@ -4,9 +4,6 @@
       <div class="col-xs-12 col-md-8 pull-right">
         <div class="input-group">
           <input v-if="selectid === 0" type="text" class="form-control" placeholder="搜索">
-          <input v-if="selectid !== 0" type="text" class="form-control" id="first">
-          <span v-if="selectid !== 0" class="input-group-addon">~</span>
-          <input v-if="selectid !== 0" type="text" class="form-control" id="second">
           <div class="input-group-btn dropdown">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="$('.dropdown-toggle').dropdown()">
               {{ select }}
@@ -25,9 +22,6 @@
               </li>
             </ul>
           </div>
-          <span class="input-group-btn">
-            <button class="btn btn-default" type="button" @click="search">搜索</button>
-          </span>
         </div>
       </div>
     </div>
@@ -84,12 +78,8 @@ export default {
     update (id) {
       this.selectid = id
     },
-    search (mode) {
-    },
-    keyListener (e) {
-      if (e.keyCode === 13) {
-        this.button.click()
-      }
+    sortTime (a, b) {
+      return a.time < b.time ? 1 : -1
     }
   },
   watch: {
@@ -121,15 +111,8 @@ export default {
             order.tot += item.book.price * item.amount
           }
         }
+        this.orders.sort(this.sortTime)
       })
-    document.onkeydown = this.keyListener
-    var buttons = document.getElementsByTagName('button')
-    for (var button of buttons) {
-      if (button.innerHTML === '搜索') {
-        this.button = button
-        break
-      }
-    }
   }
 }
 </script>

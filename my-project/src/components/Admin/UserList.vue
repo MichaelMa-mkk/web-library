@@ -8,6 +8,7 @@
           <th>name</th>
           <th>email</th>
           <th>phone</th>
+          <th>ban</th>
         </thead>
         <tbody>
           <tr v-for="user in users" :key="user.id">
@@ -15,6 +16,12 @@
             <td>{{user.name}}</td>
             <td>{{user.email}}</td>
             <td>{{user.phone}}</td>
+            <td v-if="user.ban === 1">
+              <button class="btn btn-default" @click="ban(user.id, 0)">unban</button>
+            </td>
+            <td v-else>
+              <button class="btn btn-danger" @click="ban(user.id, 1)">ban</button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -35,8 +42,21 @@ export default {
       users: []
     }
   },
+  methods: {
+    ban (id, mode) {
+      this.$http.post('/banuser', { id: id, ban: mode })
+        .then((response) => {
+          for (let user of this.users) {
+            if (user.id === id) {
+              user.ban = mode
+              break
+            }
+          }
+        })
+    }
+  },
   mounted () {
-    this.$http.post('/getusers')
+    this.$http.get('/getusers')
       .then((response) => {
         this.users = response.data.users
       })
