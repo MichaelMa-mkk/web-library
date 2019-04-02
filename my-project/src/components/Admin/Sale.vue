@@ -96,6 +96,9 @@ export default {
     },
     update (id) {
       this.selectid = id
+      this.key = ''
+      this.first = ''
+      this.second = ''
     },
     keyListener (e) {
       if (e.keyCode === 13) {
