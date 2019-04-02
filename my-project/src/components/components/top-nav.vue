@@ -46,9 +46,9 @@ export default {
   data () {
     var buys = []
     var mytot = 0
-    if (this.data.LoginId !== '') {
-      mytot = this.data.UserList[this.data.LoginId].buy.length
-      buys = this.data.UserList[this.data.LoginId].buy
+    if (this.data.LoginUser.id !== null) {
+      mytot = this.data.LoginUser.cart.length
+      buys = this.data.LoginUser.cart
     }
     return {
       mytot: isNaN(this.tot) ? mytot : this.tot,
@@ -59,7 +59,7 @@ export default {
     check () {
       var url = window.location.href
       url = url.substring(0, url.indexOf('#/'))
-      if (this.data.LoginId === '') {
+      if (this.data.LoginUser.id === null) {
         window.location.href = url + '#/login'
       } else {
         window.location.href = url + '#/user/info'
@@ -69,10 +69,9 @@ export default {
   watch: {
     'buys': {
       handler: function (val, oldval) {
-        console.log('watch')
         this.mytot = 0
-        if (this.data.LoginId !== '') {
-          this.mytot = this.data.UserList[this.data.LoginId].buy.length
+        if (this.data.LoginUser.id !== null) {
+          this.mytot = this.data.LoginUser.cart.length
         }
       },
       deep: true

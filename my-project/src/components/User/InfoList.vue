@@ -22,7 +22,7 @@
 import TopNav from '@/components/components/top-nav'
 
 export default {
-  name: 'user-info',
+  name: 'info-list',
   components: {
     TopNav
   },
@@ -42,7 +42,7 @@ export default {
         }
       }
     }
-    document.getElementById(this.$route.name).classList.add('active')
+    if (document.getElementById(this.$route.name)) document.getElementById(this.$route.name).classList.add('active')
   },
   watch: {
     '$route.name': function () {

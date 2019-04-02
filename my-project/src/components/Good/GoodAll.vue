@@ -90,7 +90,7 @@ export default {
   name: 'good-all',
   data () {
     return {
-      goods: this.data.GoodList,
+      goods: [],
       select: '全部商品',
       selectid: 0,
       button: ''
@@ -216,6 +216,11 @@ export default {
     }
   },
   mounted () {
+    this.$http.get('/getgoods')
+      .then((response) => {
+        this.goods = response.data.goods
+        this.data.GoodList = this.goods
+      })
     document.onkeydown = this.keyListener
     var buttons = document.getElementsByTagName('button')
     for (var button of buttons) {

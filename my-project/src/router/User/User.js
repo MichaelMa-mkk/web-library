@@ -1,10 +1,8 @@
 import InfoList from '@/components/User/InfoList'
 import UserInfo from '@/components/User/UserInfo'
-import UserEval from '@/components/User/UserEval'
-import UserPublish from '@/components/User/UserPublish'
 import UserOrder from '@/components/User/UserOrder'
 
-export default{
+export default {
   path: '/user',
   component: InfoList,
   children: [
@@ -19,16 +17,6 @@ export default{
       path: 'info',
       name: 'UserInfo',
       component: UserInfo
-    },
-    {
-      path: 'eval',
-      name: 'UserEval',
-      component: UserEval
-    },
-    {
-      path: 'publish',
-      name: 'UserPublish',
-      component: UserPublish
     },
     {
       path: 'order',

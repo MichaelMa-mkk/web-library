@@ -2,9 +2,9 @@
   <form v-if="login" class="form-horizontal">
     <div class="form-group">
       <label class="col-md-2 control-label">头像</label>
-      <img v-if="user.icon === ''" src="../../../static/default.svg" alt="140x140" class="img-circle" />
-      <img v-else :src="user.icon" alt="140x140" class="img-circle" />
-      <input type="file" class="inline hide" id="icon">
+      <img v-if="showicon" :src="user.icon" alt="140x140" class="img-circle" />
+      <img v-else src="../../../static/default.svg" alt="140x140" class="img-circle" />
+      <input accept="image/*" type="file" class="inline" id="icon">
     </div>
     <div class="form-group">
       <label class="col-md-2 control-label">用户名</label>
@@ -48,17 +48,21 @@ export default {
   name: 'user-info',
   data () {
     return {
-      login: this.data.LoginId !== '',
-      user: this.data.UserList[this.data.LoginId],
+      login: this.data.LoginUser.id !== null,
+      user: '',
+      showicon: false,
       button: ''
     }
   },
   methods: {
     quit () {
-      this.data.LoginId = ''
-      var url = window.location.href
-      url = url.substring(0, url.length - 9)
-      window.location.href = url + 'login'
+      this.$http.get('/logout')
+        .then((response) => {
+          this.data.LoginUser.id = null
+          var url = window.location.href
+          url = url.substring(0, url.length - 9)
+          window.location.href = url + 'login'
+        })
     },
     checkPhone () {
       var phone = document.getElementById('phone').value
@@ -71,7 +75,7 @@ export default {
       var name = document.getElementById('name').value
       var phone = document.getElementById('phone').value
       var email = document.getElementById('email').value
-      var icon = document.getElementById('icon').value
+      var icon = document.getElementById('icon').files[0]
       var flag = true
       if (phone.length !== 11) {
         $('#dialog').popover('destroy')
@@ -79,9 +83,19 @@ export default {
         $('#phone').after('<span id="phone-help" class="help-block">手机格式错误</span>')
         flag = false
       }
-      if (icon !== '') {
-        this.data.UserList[this.data.LoginId].icon = icon
-        this.user.icon = icon
+      // user icon need backend!!!!!!!!
+      if (icon) {
+        var r = new FileReader() // 本地预览
+        r.readAsDataURL(icon) // Base64
+        r.onload = () => {
+          this.$http.post('/updateicon', { icon: r.result, id: this.data.LoginUser.id })
+            .then((response) => {
+              this.data.LoginUser.icon = response.icon
+              this.user.icon = response.icon
+              this.showicon = true
+              console.log(this.user)
+            })
+        }
       }
       // eslint-disable-next-line
       var re = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/
@@ -91,14 +105,6 @@ export default {
         $('#email').after('<span id="email-help" class="help-block">邮箱格式错误</span>')
         flag = false
       }
-      for (var user of this.data.UserList) {
-        if (user.name === name) {
-          $('#name').parent().parent().addClass('has-error')
-          $('#name').after('<span id="name-help" class="help-block">用户名已被注册</span>')
-          flag = false
-          break
-        }
-      }
       if (pwd !== '') {
         var alphabet = /[a-z]/i
         var number = /[0-9]/
@@ -107,17 +113,19 @@ export default {
           $('#password').parent().parent().addClass('has-error')
           $('#password').after('<span id="password-help" class="help-block">密码必须包含数字和字母</span>')
           flag = false
-        } else if (flag) this.data.UserList[this.data.LoginId].pwd = pwd
+        } else if (flag) {
+          // update password
+          this.data.LoginUser.pwd = pwd
+        }
       }
       if (flag) {
-        this.data.UserList[this.data.LoginId].name = name
-        this.data.UserList[this.data.LoginId].phone = phone
-        this.data.UserList[this.data.LoginId].email = email
-        $('#dialog').popover('show')
+        this.$http.post('/updateuserinfo', { name: name, phone: phone, email: email, id: this.data.LoginUser.id })
+          .then((response) => {
+            this.data.LoginUser = response.data
+            this.user = this.data.LoginUser
+            $('#dialog').popover('show')
+          })
       }
-      // this.user.name = name
-      // this.user.phone = phone
-      // this.user.email = email
       document.getElementById('password').value = ''
     },
     keyListener (e) {
@@ -127,11 +135,29 @@ export default {
     }
   },
   mounted () {
-    if (this.data.LoginId === '') {
+    if (this.data.LoginUser.id === null) {
       var url = window.location.href
       url = url.substring(0, url.length - 9)
       window.location.href = url + 'login'
+      return
     }
+    this.$http.get('/getuser', { params: { id: this.data.LoginUser.id } })
+      .then((response) => {
+        this.data.LoginUser = response.data
+        this.user = response.data
+        if (this.user.icon) this.showicon = true
+      })
+      .catch((error) => {
+        if (error.response) {
+          if (error.response.status === 400) {
+            alert('请重新登录')
+            this.data.LoginUser.id = null
+            var url = window.location.href
+            url = url.substring(0, url.length - 9)
+            window.location.href = url + 'login'
+          }
+        }
+      })
     document.onkeydown = this.keyListener
     var buttons = document.getElementsByTagName('button')
     for (var button of buttons) {
@@ -147,5 +173,9 @@ export default {
 <style scoped>
 .inline {
   float: right;
+}
+img {
+  width: 140px;
+  height: 140px;
 }
 </style>

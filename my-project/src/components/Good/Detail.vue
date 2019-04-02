@@ -4,7 +4,7 @@
     <div class="jumbotron">
       <div class="container">
         <div class="row">
-          <p><img class="col-xs-12 col-md-5" :src="'../../../static/' + item.name + '.jpg'" /></p>
+          <p><img class="col-xs-12 col-md-5" :src="'../../../static/' + item.id + '.jpg'" /></p>
           <div class="col-xs-12 col-md-7" id="row">
             <h1>{{item.name}}</h1>
             <p>
@@ -16,7 +16,7 @@
               ￥{{item.price}}
             </p>
             <p>
-              <strong>摘要：</strong>{{item.abstract}}
+              <strong>摘要：</strong>{{item.summary}}
             </p>
             <div class="input-group">
               <span class="input-group-addon">剩余库存:</span>
@@ -43,14 +43,20 @@ export default {
   },
   data () {
     return {
-      item: this.data.GoodList[this.$route.params.id],
+      item: '',
       flag1: 0,
       flag2: 0
     }
   },
+  mounted () {
+    this.$http.get('/getitem', { params: { id: this.$route.params.id } })
+      .then((response) => {
+        this.item = response.data
+      })
+  },
   methods: {
     buy () {
-      if (this.data.LoginId === '') alert('请先登录')
+      if (this.data.LoginUser.id === null) alert('请先登录')
       else if (this.item.stock === 0) {
         if (this.flag1 === 0) {
           $('#addcart').popover('destroy')
@@ -64,9 +70,9 @@ export default {
           this.flag1 = 1
         }
       } else {
-        var buys = this.data.UserList[this.data.LoginId].buy
+        var buys = this.data.LoginUser.cart
         for (let item of buys) {
-          if (item.id === this.$route.params.id) {
+          if (item.bookid === this.$route.params.id) {
             item.amount += 1
             if (item.amount > this.item.stock) {
               $('#addcart').popover('destroy')
@@ -82,16 +88,22 @@ export default {
               }
               item.amount = this.item.stock
             } else {
-              $('#addcart').popover('show')
+              this.$http.post('/addcart', { bookid: this.$route.params.id, amount: item.amount })
+                .then((response) => {
+                  $('#addcart').popover('show')
+                })
             }
             return
           }
         }
-        buys.push({
-          id: Number(this.$route.params.id),
+        this.data.LoginUser.cart.push({
+          bookid: Number(this.$route.params.id),
           amount: 1
         })
-        $('#addcart').popover('show')
+        this.$http.post('/addcart', { bookid: this.$route.params.id, amount: 1 })
+          .then((response) => {
+            $('#addcart').popover('show')
+          })
       }
     }
   }

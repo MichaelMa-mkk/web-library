@@ -83,28 +83,18 @@ export default {
             document.getElementById('repeat').value = ''
             document.getElementById('password').value = ''
           }
-          for (var user of this.data.UserList) {
-            if (user.name === name) {
-              $('#name').parent().parent().addClass('has-error')
-              $('#name').after('<span id="name-help" class="help-block">用户名已被注册</span>')
-              flag = false
-              break
-            }
-          }
           if (!flag) return
-          var len = this.data.UserList.length
-          this.data.UserList.push({
-            id: len,
-            name: name,
-            pwd: pwd,
-            phone: phone,
-            buy: [],
-            email: email,
-            icon: ''
-          })
-          var url = window.location.href
-          url = url.substring(0, url.length - 8)
-          window.location.href = url + 'login'
+          this.$http.post('/registerhandle', { name: name, email: email, pwd: pwd, phone: phone })
+            .then((response) => {
+              if (response.data.name == null) {
+                $('#name').parent().parent().addClass('has-error')
+                $('#name').after('<span id="name-help" class="help-block">用户名已被注册</span>')
+              } else {
+                var url = window.location.href
+                url = url.substring(0, url.length - 8)
+                window.location.href = url + 'login'
+              }
+            })
         }
       }
     },
